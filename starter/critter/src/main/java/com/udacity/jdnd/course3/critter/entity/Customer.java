@@ -1,17 +1,33 @@
-package com.udacity.jdnd.course3.critter.user;
+package com.udacity.jdnd.course3.critter.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the form that customer request and response data takes. Does not map
- * to the database directly.
+ * The type Customer.
  */
-public class CustomerDTO {
+@Entity
+public class Customer implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String phoneNumber;
+
+    @Column(length = 1000)
     private String notes;
-    private List<Long> petIds;
+
+    @OneToMany(targetEntity = Pet.class)
+    private List<Pet> pets;
+
+    /**
+     * Instantiates a new Customer.
+     */
+    public Customer() {
+    }
 
     /**
      * Gets id.
@@ -86,20 +102,32 @@ public class CustomerDTO {
     }
 
     /**
-     * Gets pet ids.
+     * Gets pets.
      *
-     * @return the pet ids
+     * @return the pets
      */
-    public List<Long> getPetIds() {
-        return petIds;
+    public List<Pet> getPets() {
+        return pets;
     }
 
     /**
-     * Sets pet ids.
+     * Sets pets.
      *
      * @param petIds the pet ids
      */
-    public void setPetIds(List<Long> petIds) {
-        this.petIds = petIds;
+    public void setPets(List<Pet> petIds) {
+        this.pets = pets;
+    }
+
+    /**
+     * Sets each pet.
+     *
+     * @param pet the pet
+     */
+    public void setEachPet(Pet pet) {
+        if(pets == null) {
+            pets = new ArrayList<>();
+        }
+        pets.add(pet);
     }
 }
